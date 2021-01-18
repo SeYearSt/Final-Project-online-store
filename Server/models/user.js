@@ -37,12 +37,15 @@ const UserSchema = mongoose.Schema({
         maxlength: 30
     },
     street: {
-        type: String,
+        type: String, 
         required: true,
         minlength: 3,
         maxlength: 60
     },
-    isAdmin: Boolean
+    isAdmin: {
+        type: Boolean,
+        required: true
+    }
 }, {
     versionKey: false,
     toJSON: { virtuals: true },

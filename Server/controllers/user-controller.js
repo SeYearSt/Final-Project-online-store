@@ -33,7 +33,10 @@ router.post('/login', async (request, response) => {
             return;
         }
         const user = getUser[0];
-        const jwtToken = jwt.sign({ user }, 'secretkey');
+        const jwtToken = jwt.sign({ user }, 'secretkey', {
+            expiresIn: "1hr"
+        });
+        //console.log("jwt Token", jwtToken);
         response.json({ user, jwtToken });
     } catch (error) {
         response.status(500).send(error.message);
@@ -54,11 +57,33 @@ router.post('/check-form', async (request, response) => {
 router.get('/auto-login', jwtLogic.verifyToken, (req, res) => {
     jwt.verify(req.token, 'secretkey', (err, authData) => {
         if (err) {
+
             res.json(err);
         } else {
             res.json(authData);
         }
     });
 });
+
+router.get('/check-token', jwtLogic.verifyToken, (req, res) => {
+    jwt.verify(req.token, 'secretkey', (err, authData) => {
+        if (err) {
+            console.log(req.token);
+            res.json(err);
+        } else {
+            res.json(authData);
+        }
+    });
+});
+
+router.get('/check-user', jwtLogic.verifyUser, (req, res) => {
+    if (req.verifiedUser){
+        res.json({"Verified": true});
+    }
+    else{
+        res.json({"Verified": false, 'error': req.err});
+    }
+});
+
 
 module.exports = router;

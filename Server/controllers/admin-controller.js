@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
+const User = require('../models/user')
 const adminLogic = require('../business-logic/admin-logic');
 const uuid = require('uuid');
+const jwt = require('../helpers/jwt');
+const { request } = require('express');
 
 
-router.put('/update-product', async (request, response) => {
+router.put('/update-product', jwt.verifyUser, async (request, response) => {
+    if (!request.verifyUser) {
+        response.status(401).send({error: request.err});
+    }
     try {
         const oldProduct = new Product(JSON.parse(request.body.product));
         /// if there is file in the request
@@ -24,7 +30,10 @@ router.put('/update-product', async (request, response) => {
     }
 });
 
-router.post('/add-product', async (request, response) => {
+router.post('/add-product', jwt.verifyUser, async (request, response) => {
+    if (!request.verifyUser) {
+        response.status(401).send({error: request.err});
+    }
     try {
         if (!request.files) {
             throw "You need to upload image !"
@@ -45,12 +54,25 @@ router.post('/add-product', async (request, response) => {
 });
 
 //for the update /add form.
-router.get('/get-all-categories', async (request, response) => {
+router.get('/get-all-categories',  jwt.verifyUser, async (request, response) => {
+    if (!request.verifyUser) {
+        response.status(401).send({error: request.err});
+    }
     try {
         const categories = await adminLogic.getAllCategories();
         response.json(categories);
     } catch (error) {
         response.status(500).send(error);
+    }
+});
+
+router.get('/check_admin', jwt.verifyUser, async (req, res) =>{
+    const user = await User.findById(req.authData.user._id).exec();
+    if (user.isAdmin){
+        res.json({'isAdmin': true})
+    }
+    else{
+        res.json({'isAdmin': false})
     }
 });
 

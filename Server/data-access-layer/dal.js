@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 function connectAsync() {
     return new Promise((resolve, reject) => {
-        mongoose.connect("mongodb://localhost:27017/OnlineStore",
+        mongoose.connect("mongodb://localhost:27017/MyDb",
+        // mongodb+srv://scripter:123123123@cluster0.xscan.mongodb.net/mydb?retryWrites=true&w=majority
             { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
                 if (err) {
                     reject(err);

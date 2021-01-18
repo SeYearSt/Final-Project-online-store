@@ -66,6 +66,7 @@ export class RegisterComponent implements OnInit {
       myForm.controls['selectCity'].setErrors({ 'undefined': true });
       return;
     }
+    this.user.isAdmin=false;
     this.myRegisterService.addUser(this.user)
       .subscribe(res => {
         localStorage.setItem('token', res.jwtToken);
