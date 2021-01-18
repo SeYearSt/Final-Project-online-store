@@ -9,7 +9,7 @@ const { request } = require('express');
 
 
 router.put('/update-product', jwt.verifyUser, async (request, response) => {
-    if (!request.verifyUser) {
+    if (!jwt.verifyUser) {
         response.status(401).send({error: request.err});
     }
     try {
@@ -31,7 +31,7 @@ router.put('/update-product', jwt.verifyUser, async (request, response) => {
 });
 
 router.post('/add-product', jwt.verifyUser, async (request, response) => {
-    if (!request.verifyUser) {
+    if (!jwt.verifyUser) {
         response.status(401).send({error: request.err});
     }
     try {
@@ -55,7 +55,7 @@ router.post('/add-product', jwt.verifyUser, async (request, response) => {
 
 //for the update /add form.
 router.get('/get-all-categories',  jwt.verifyUser, async (request, response) => {
-    if (!request.verifyUser) {
+    if (!jwt.verifyUser) {
         response.status(401).send({error: request.err});
     }
     try {
