@@ -16,11 +16,11 @@ export class HomeComponent implements OnInit {
     store.subscribe(() => {
       this.user = store.getState().user;
     });
-    setTimeout(() => {
-      if(this.user && this.user.isAdmin){
-        this.myRouter.navigateByUrl("/admin");
-      }
-    }, 2000);
+    // setTimeout(() => {
+    //   if(this.user && this.user.isAdmin){
+    //     this.myRouter.navigateByUrl("/admin");
+    //   }
+    // }, 2000);
   }
 
 }
