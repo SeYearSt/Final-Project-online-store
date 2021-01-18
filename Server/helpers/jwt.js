@@ -38,7 +38,6 @@ function verifyTokenFunc(req){
 
 function verifyUser(req, res, next) {
     var auth_res = verifyTokenFunc(req);
-    //console.log(auth_res);
     if (auth_res[0]){
         req.verifiedUser = true;
         req.authData = auth_res[1];

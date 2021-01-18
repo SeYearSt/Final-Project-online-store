@@ -13,13 +13,13 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   public getAllCategories() {
-    return this.http.get(this.myApi + 'get-all-categories');
+    return this.http.get(this.myApi + 'get-all-categories', { headers: { "Authorization": "Bearer " + localStorage.getItem('token') } });
   }
   public addProduct(product: any) {
-    return this.http.post<any>(this.myApi + 'add-product', product);
+    return this.http.post<any>(this.myApi + 'add-product', product, { headers: { "Authorization": "Bearer " + localStorage.getItem('token') } });
   }
   public updateProduct(product:any){
-    return this.http.put<any>(this.myApi + 'update-product', product);
+    return this.http.put<any>(this.myApi + 'update-product', product, { headers: { "Authorization": "Bearer " + localStorage.getItem('token') } });
   }
 
 }

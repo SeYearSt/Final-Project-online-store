@@ -34,7 +34,7 @@ router.post('/login', async (request, response) => {
         }
         const user = getUser[0];
         const jwtToken = jwt.sign({ user }, 'secretkey', {
-            expiresIn: "1hr"
+            expiresIn: "24hr"
         });
         //console.log("jwt Token", jwtToken);
         response.json({ user, jwtToken });

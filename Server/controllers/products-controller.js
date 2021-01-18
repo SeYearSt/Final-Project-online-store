@@ -26,7 +26,8 @@ router.get('/search-product/:name', async (request, response) => {
 router.get('/image/:name', async (request, response) => {
     try {
         const name = request.params.name;
-        fs.readFile('../server/uploads/products/' + name,(err,data)=> {
+        folder_path = "/media/scripter/shared/Study/Master/web_prorgramming/online_store_project/Final-Project-online-store/Server/uploads/products/"
+        fs.readFile(folder_path + name,(err,data)=> {
             if(err){
                 throw err;
             }
