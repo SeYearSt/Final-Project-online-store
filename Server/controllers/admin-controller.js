@@ -9,9 +9,15 @@ const { request } = require('express');
 
 
 router.put('/update-product', jwt.verifyUser, async (request, response) => {
-    if (!jwt.verifyUser) {
+
+    if (!request.verifiedUser) {
         response.status(401).send({error: request.err});
+    }else{
+        if (!request.authData.user.isAdmin) {
+            response.status(401).send({error: request.err});
+        }
     }
+
     try {
         const oldProduct = new Product(JSON.parse(request.body.product));
         /// if there is file in the request
@@ -31,9 +37,15 @@ router.put('/update-product', jwt.verifyUser, async (request, response) => {
 });
 
 router.post('/add-product', jwt.verifyUser, async (request, response) => {
-    if (!jwt.verifyUser) {
+
+    if (!request.verifiedUser) {
         response.status(401).send({error: request.err});
+    }else{
+        if (!request.authData.user.isAdmin) {
+            response.status(401).send({error: request.err});
+        }
     }
+
     try {
         if (!request.files) {
             throw "You need to upload image !"
@@ -55,7 +67,9 @@ router.post('/add-product', jwt.verifyUser, async (request, response) => {
 
 //for the update /add form.
 router.get('/get-all-categories',  jwt.verifyUser, async (request, response) => {
-    if (!jwt.verifyUser) {
+
+    if (!request.verifiedUser) {
+        console.log(request.verifiedUser);
         response.status(401).send({error: request.err});
     }
     try {
@@ -67,6 +81,7 @@ router.get('/get-all-categories',  jwt.verifyUser, async (request, response) => 
 });
 
 router.get('/check_admin', jwt.verifyUser, async (req, res) =>{
+
     const user = await User.findById(req.authData.user._id).exec();
     if (user.isAdmin){
         res.json({'isAdmin': true})
