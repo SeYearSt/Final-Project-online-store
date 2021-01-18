@@ -5,6 +5,13 @@ import { ProductModel } from 'src/app/models/product';
 import { AdminService } from 'src/app/services/admin.service';
 import { store } from 'src/app/redux/store';
 
+import {HomeComponent} from '../home/home.component';
+import { Routes, Router } from '@angular/router';
+
+
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+];
 
 @Component({
   selector: 'app-admin',
@@ -19,11 +26,16 @@ export class AdminComponent implements OnInit {
   public newProduct: boolean = false;
   public editProduct: boolean = false;
 
-  constructor(private myProductsService: ProductsService, private adminService: AdminService) { }
+  constructor(private myProductsService: ProductsService, private adminService: AdminService, private router: Router) { }
 
   ngOnInit(): void {
     store.subscribe(() => {
       this.user = store.getState().user;
+
+      if (!this.user.isAdmin) {
+        this.router.navigate(['/homr']);
+      }
+
     });
     this.myProductsService.getAllProducts()
       .subscribe(res => this.products = res, err => alert(err.message));
