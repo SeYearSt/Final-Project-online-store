@@ -10,6 +10,7 @@
                 <th>Price</th>
                 <th>Image</th>
                 <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,9 @@
                 <td><img src="http://localhost:3000/api/products/image/{{p.img}}" alt=''></td>
                 <td>
                     <button mat-raised-button (click)='goToEditProduct(p._id)'>Edit</button>
+                </td>
+                <td>
+                   <button mat-raised-button color="warn" (click)='deleteProduct(p)'>Delete</button>
                 </td>
             </tr>
         </tbody>

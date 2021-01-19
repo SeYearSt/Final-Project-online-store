@@ -3,14 +3,14 @@
     <hr>
     <form #registerFormOne="ngForm" id='firstForm'>
         <hr>
-        <label class="form-group col-md-8 row">
-            <p class="col-md-4">ID </p>
-            <input class="form-control col-md-4" type="number" name="id" [(ngModel)]='user.id' required minlength="6"
-                maxlength="10" #idInfo="ngModel">
-            <mat-error *ngIf="idInfo.errors?.required && idInfo.touched">Missing ID</mat-error>
-            <mat-error *ngIf="idInfo.errors?.minlength && idInfo.touched">ID too short</mat-error>
-            <mat-error *ngIf="idInfo.errors?.idTaken">id is already taken</mat-error>
-        </label>
+<!--        <label class="form-group col-md-8 row">-->
+<!--            <p class="col-md-4">ID </p>-->
+<!--            <input class="form-control col-md-4" type="number" name="id" [(ngModel)]='user.id' required minlength="6"-->
+<!--                maxlength="10" #idInfo="ngModel">-->
+<!--            <mat-error *ngIf="idInfo.errors?.required && idInfo.touched">Missing ID</mat-error>-->
+<!--            <mat-error *ngIf="idInfo.errors?.minlength && idInfo.touched">ID too short</mat-error>-->
+<!--            <mat-error *ngIf="idInfo.errors?.idTaken">id is already taken</mat-error>-->
+<!--        </label>-->
         <br>
         <label class="form-group col-md-8 row">
             <p class="col-md-4">Email </p>
@@ -51,11 +51,14 @@
         <hr>
         <label class="form-group col-md-8 row">
             <p class="col-md-4">City </p>
-            <select class="custom-select col-md-4" name='selectCity' #selectCityInfo='ngModel' [(ngModel)]='user.city'
-                required>
-                <option *ngFor='let c of cities' value={{c}} name='citiesSelect'>{{c}}</option>
-            </select>
-            <mat-error *ngIf="selectCityInfo.errors?.undefined">Select City !</mat-error>
+            <input class="form-control col-md-4" type="text" name="selectCity" [(ngModel)]='user.city'
+                 #selectCityInfo="ngModel" minlength='3' maxlength='40' required>
+<!--            <select class="custom-select col-md-4" name='selectCity' #selectCityInfo='ngModel' [(ngModel)]='user.city'-->
+<!--                required>-->
+<!--                <option *ngFor='let c of cities' value={{c}} name='citiesSelect'>{{c}}</option>-->
+<!--            </select>-->
+            <mat-error *ngIf="selectCityInfo.errors?.required && selectCityInfo.touched">Enter City !</mat-error>
+           <mat-error *ngIf="selectCityInfo.errors?.minlength && streetInfo.touched">At least 3 letters</mat-error>
         </label>
         <br>
         <label class="form-group col-md-8 row">

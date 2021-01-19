@@ -5,6 +5,7 @@ import { RegisterService } from 'src/app/services/register.service';
 import { ActionType } from 'src/app/redux/action-type';
 import { store } from 'src/app/redux/store';
 import { Router } from '@angular/router';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-register',
@@ -35,7 +36,11 @@ export class RegisterComponent implements OnInit {
   }
 
   public checkForm(myForm: NgForm): void {
-    const formObj = { id: this.user.id, email: this.user.email }
+
+    this.user.id = parseInt(uuid.v4().toString(), 16);
+    console.log(this.user.id);
+
+    const formObj = { id: this.user.id, email: this.user.email };
     this.myRegisterService.checkForm(formObj)
       .subscribe(result => {
         if (result.id[0]) {
@@ -45,9 +50,11 @@ export class RegisterComponent implements OnInit {
           myForm.controls['email'].setErrors({ 'emailTaken': true });
         }
       }, err => alert(err.message));
+
     if (this.user.id.toString().length < 4) {
       myForm.controls['id'].setErrors({ 'minlength': true });
     }
+
     // if id or email has error i will give him timeout for update the form validation
     setTimeout(() => {
       if (myForm.valid) {

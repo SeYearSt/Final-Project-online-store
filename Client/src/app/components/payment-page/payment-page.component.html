@@ -35,10 +35,12 @@
             <hr>
             <div class="form-group col-md-12 row">
                 <label class="col-md-6">City</label>
-                <select name='citiesSelect' #selectedCity='ngModel' [(ngModel)]='order.city' class="custom-select"
-                    id="inputGroupSelect01 col-md-6" required>
-                    <option *ngFor='let c of cities' value={{c}} name='citiesSelect'>{{c}}</option>
-                </select>
+              <input class="form-control col-md-6" type="text" name="citiesSelect" [(ngModel)]='order.city'
+                     #streetInfo="ngModel" minlength='3' maxlength='30' required>
+<!--                <select name='citiesSelect' #selectedCity='ngModel' [(ngModel)]='order.city' class="custom-select"-->
+<!--                    id="inputGroupSelect01 col-md-6" required>-->
+<!--                    <option *ngFor='let c of cities' value={{c}} name='citiesSelect'>{{c}}</option>-->
+<!--                </select>-->
             </div>
             <div class="form-group col-md-12 row">
                 <label class="col-md-6">Street</label>

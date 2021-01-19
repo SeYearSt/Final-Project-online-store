@@ -15,7 +15,7 @@
         </div>
         <div class="list-group" *ngIf='user && !cartOption'>
             <button type="button" class="list-group-item list-group-item-action" *ngFor="let p of shoppingCartProducts">
-                <img src='http://localhost:3000/api/products/image/{{p.name}}.png'>
+                <img src='http://localhost:3000/api/products/image/{{p.img}}'>
                 <p>{{p.name}}</p>
                 <span class="badge badge-primary badge-pill">{{p.amount}} pcs</span>
                 <p>{{p.price | currency}}</p>

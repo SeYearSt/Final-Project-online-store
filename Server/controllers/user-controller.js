@@ -10,9 +10,9 @@ router.post('/register', async (request, response) => {
         const user = new User(request.body);
         //check if user & email exists
         const checkEmail = await userLogic.checkEmail(user.email);
-        const checkId = await userLogic.checkId(user.id);
+        // const checkId = await userLogic.checkId(user.id);
         if (checkEmail.length !== 0) { throw "Email already exists" }
-        if (checkId.length !== 0) { throw "ID already exists" }
+        // if (checkId.length !== 0) { throw "ID already exists" }
         /// --------------------
         const newUser = await userLogic.addUser(user);
         newUser.password = null;
@@ -36,7 +36,6 @@ router.post('/login', async (request, response) => {
         const jwtToken = jwt.sign({ user }, 'secretkey', {
             expiresIn: "24hr"
         });
-        //console.log("jwt Token", jwtToken);
         response.json({ user, jwtToken });
     } catch (error) {
         response.status(500).send(error.message);

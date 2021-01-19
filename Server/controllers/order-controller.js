@@ -4,6 +4,7 @@ const Order = require('../models/order');
 const orderLogic = require('../business-logic/order-logic');
 const path = './uploads/receipts/';
 const uuid = require('uuid');
+const jwt = require('../helpers/jwt');
 
 router.post('/', async (request, response) => {
     try {
@@ -19,7 +20,11 @@ router.post('/', async (request, response) => {
         response.status(500).send(error.message);
     }
 });
-router.get('/get-all-orders', async (request, response) => {
+router.get('/get-all-orders', jwt.verifyUser, async (request, response) => {
+    if (!request.verifiedUser) {
+        response.status(401).send({error: request.err});
+    }
+
     try {
         const orders = await orderLogic.getAllOrders();
         response.json(orders);
