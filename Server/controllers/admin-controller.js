@@ -65,13 +65,33 @@ router.post('/add-product', jwt.verifyUser, async (request, response) => {
     }
 });
 
+router.post('/delete-product', jwt.verifyUser, async (request, response) => {
+
+    if (!request.verifiedUser) {
+        response.status(401).send({error: request.err});
+    }else{
+        if (!request.authData.user.isAdmin) {
+            response.status(401).send({error: request.err});
+        }
+    }
+
+    try {
+        const product = new Product(JSON.parse(request.body.product));
+        const res = await adminLogic.deleteProduct(product);
+        response.json(res);
+
+    } catch (error) {
+        response.status(500).send(error.message);
+    }
+
+});
+
 //for the update /add form.
 router.get('/get-all-categories',  jwt.verifyUser, async (request, response) => {
 
-    if (!request.verifiedUser) {
-        console.log(request.verifiedUser);
-        response.status(401).send({error: request.err});
-    }
+    // if (!request.verifiedUser) {
+    //     response.status(401).send({error: request.err});
+    // }
     try {
         const categories = await adminLogic.getAllCategories();
         response.json(categories);

@@ -33,7 +33,7 @@ export class AdminComponent implements OnInit {
       this.user = store.getState().user;
 
       if (!this.user.isAdmin) {
-        this.router.navigate(['/homr']);
+        this.router.navigate(['/home']);
       }
 
     });
@@ -85,12 +85,24 @@ export class AdminComponent implements OnInit {
         this.products[index] = res;
         alert('product has been updated !');
         this.goBack();
-      }, err => alert(err.message))
+      }, err => alert(err.message));
   }
 
   public goBack(): void {
     this.newProduct = false;
     this.editProduct = false;
     this.product = new ProductModel();
+  }
+
+  public deleteProduct(product): void {
+
+    const myForm: FormData = new FormData();
+    myForm.append('product', JSON.stringify(product));
+    this.adminService.deleteProduct(myForm)
+      .subscribe(res => {
+        alert('product has been deleted !');
+        this.goBack();
+        window.location.reload();
+      }, error => alert(error.message));
   }
 }

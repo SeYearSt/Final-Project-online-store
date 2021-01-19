@@ -22,4 +22,8 @@ export class AdminService {
     return this.http.put<any>(this.myApi + 'update-product', product, { headers: { "Authorization": "Bearer " + localStorage.getItem('token') } });
   }
 
+  public deleteProduct(product:any) {
+    return this.http.post<any>(this.myApi + 'delete-product', product, { headers: { "Authorization": "Bearer " + localStorage.getItem('token') } });
+  }
+
 }
