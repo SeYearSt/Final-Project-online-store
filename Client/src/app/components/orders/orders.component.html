@@ -1,0 +1,26 @@
+<h1>Orders Panel</h1>
+<hr>
+<div>
+  <table>
+    <thead>
+    <tr>
+      <th>CartId</th>
+      <th>Total Price</th>
+      <th>Shipping Date</th>
+      <th>Order Date</th>
+      <th>City</th>
+      <th>Street</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor='let o of orders'>
+      <td>{{o.cartId}}</td>
+      <td>{{o.totalPrice}}</td>
+      <td>{{o.shippingDate}}</td>
+      <td>{{o.orderDate}}</td>
+      <td>{{o.city}}</td>
+      <td>{{o.street}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
