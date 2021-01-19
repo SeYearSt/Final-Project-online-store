@@ -9,7 +9,6 @@ const { request } = require('express');
 
 
 router.put('/update-product', jwt.verifyUser, async (request, response) => {
-
     if (!request.verifiedUser) {
         response.status(401).send({error: request.err});
     }else{
@@ -17,7 +16,6 @@ router.put('/update-product', jwt.verifyUser, async (request, response) => {
             response.status(401).send({error: request.err});
         }
     }
-
     try {
         const oldProduct = new Product(JSON.parse(request.body.product));
         /// if there is file in the request
@@ -37,27 +35,25 @@ router.put('/update-product', jwt.verifyUser, async (request, response) => {
 });
 
 router.post('/add-product', jwt.verifyUser, async (request, response) => {
-
-    if (!request.verifiedUser) {
+    if (!request.verifiedUser){
         response.status(401).send({error: request.err});
     }else{
         if (!request.authData.user.isAdmin) {
             response.status(401).send({error: request.err});
         }
     }
-
     try {
         if (!request.files) {
             throw "You need to upload image !"
         }
+        const product = new Product(JSON.parse(request.body.product));
         //upload image 
         const file = request.files.image;
-        const randomName = uuid.v4();
+        const randomName = product.name;
         const extension = file.name.substr(file.name.lastIndexOf('.'));
         file.mv('./uploads/products/' + randomName + extension);
-        //-------------
-        const product = new Product(JSON.parse(request.body.product));
         product.img = randomName + extension;
+        //-------------
         const addedProduct = await adminLogic.addProduct(product);
         response.json(addedProduct);
     } catch (error) {
@@ -66,7 +62,7 @@ router.post('/add-product', jwt.verifyUser, async (request, response) => {
 });
 
 router.post('/delete-product', jwt.verifyUser, async (request, response) => {
-
+  
     if (!request.verifiedUser) {
         response.status(401).send({error: request.err});
     }else{
@@ -83,17 +79,20 @@ router.post('/delete-product', jwt.verifyUser, async (request, response) => {
     } catch (error) {
         response.status(500).send(error.message);
     }
-
 });
 
 //for the update /add form.
 router.get('/get-all-categories',  jwt.verifyUser, async (request, response) => {
-
-    // if (!request.verifiedUser) {
-    //     response.status(401).send({error: request.err});
-    // }
+    if (!request.verifiedUser) {
+        response.status(401).send({error: request.err});
+    }else{
+        if (!request.authData.user.isAdmin) {
+            response.status(401).send({error: request.err});
+        }
+    }
     try {
         const categories = await adminLogic.getAllCategories();
+        //console.log(categories);
         response.json(categories);
     } catch (error) {
         response.status(500).send(error);
